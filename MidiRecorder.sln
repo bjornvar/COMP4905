@@ -1,7 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiRecorder", "MidiRecorder\MidiRecorder.csproj", "{7DEC8DD0-4303-4187-81F4-A4E56795E211}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Midi", "Midi\Midi.csproj", "{F60D8B7B-2D2E-4B94-A736-3783FFE1A25C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiRecorder", "MidiRecorder\MidiRecorder.csproj", "{6CC10D9D-9238-42C6-B0BA-E20750EF8214}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4147E1A6-E13A-4223-888C-A99EEED69339} = {4147E1A6-E13A-4223-888C-A99EEED69339}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandDetection", "HandDetection\HandDetection.csproj", "{4147E1A6-E13A-4223-888C-A99EEED69339}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Samples.Kinect.WpfViewers", "KinectWpfViewers\Microsoft.Samples.Kinect.WpfViewers.csproj", "{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit", "Microsoft.Kinect.Toolkit\Microsoft.Kinect.Toolkit.csproj", "{C6F9C31B-6130-4443-A5CC-EF0664552ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +20,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DEC8DD0-4303-4187-81F4-A4E56795E211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DEC8DD0-4303-4187-81F4-A4E56795E211}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DEC8DD0-4303-4187-81F4-A4E56795E211}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DEC8DD0-4303-4187-81F4-A4E56795E211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60D8B7B-2D2E-4B94-A736-3783FFE1A25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60D8B7B-2D2E-4B94-A736-3783FFE1A25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60D8B7B-2D2E-4B94-A736-3783FFE1A25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60D8B7B-2D2E-4B94-A736-3783FFE1A25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CC10D9D-9238-42C6-B0BA-E20750EF8214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CC10D9D-9238-42C6-B0BA-E20750EF8214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CC10D9D-9238-42C6-B0BA-E20750EF8214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC10D9D-9238-42C6-B0BA-E20750EF8214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4147E1A6-E13A-4223-888C-A99EEED69339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4147E1A6-E13A-4223-888C-A99EEED69339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4147E1A6-E13A-4223-888C-A99EEED69339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4147E1A6-E13A-4223-888C-A99EEED69339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

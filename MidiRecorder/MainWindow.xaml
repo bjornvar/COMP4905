@@ -1,0 +1,127 @@
+﻿<Window x:Class="MidiRecorder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:kt="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
+        xmlns:toolkit="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+        Title="MainWindow" Style="{StaticResource ResourceKey=DefaultWindow}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="486*" />
+            <ColumnDefinition Width="530*" MinWidth="530" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btn_record"
+                    Content="Record"
+                    Style="{StaticResource ResourceKey=DefaultButton}"
+                    Grid.Column="0"
+                    Click="btn_record_Click"/>
+            <Button x:Name="btn_conduct"
+                    Content="Conduct"
+                    Click="btn_conduct_Click"
+                    Style="{StaticResource ResourceKey=DefaultButton}"
+                    Grid.Column="1" />
+            <Button x:Name="btn_xml"
+                    Content="To XML"
+                    Style="{StaticResource ResourceKey=DefaultButton}"
+                    Grid.Column="2" />
+            <Button x:Name="btn_settings"
+                    Content="Settings"
+                    Style="{StaticResource ResourceKey=DefaultButton}"
+                    Grid.Column="3" />
+            <Button x:Name="btn_help"
+                    Content="Help"
+                    Style="{StaticResource ResourceKey=DefaultButton}"
+                    Grid.Column="4" />
+        </Grid>
+
+        <!-- Media player -->
+        <MediaElement x:Name="med_playback"
+                      Grid.Column="1" Grid.Row="0"
+                      Visibility="Hidden" Source="Assets/03 Autumn Leaves.mp3" IsMuted="False" LoadedBehavior="Manual">
+        </MediaElement>
+        <Slider  
+                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
+                Style="{StaticResource ResourceKey=Playback}"/>
+        
+        <!-- Dynamic splitpoint -->
+        
+        
+        <!-- Postconducting -->
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Rhythm"
+                   Grid.Column="0" Grid.Row="0"
+                   Style="{StaticResource ResourceKey=DefaultTextBlock}" Margin="3,7"/>
+            <StackPanel x:Name="stc_rythm"
+                        Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4"
+                        Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,-172,0" >
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxActive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxActive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
+            </StackPanel>
+
+            <TextBlock Text="Time signature" 
+                   Grid.Column="0" Grid.Row="1"
+                   Style="{StaticResource ResourceKey=DefaultTextBlock}" Grid.RowSpan="2" Margin="3,29"/>
+            <StackPanel
+                        Grid.Column="1" Grid.Row="1"
+                        HorizontalAlignment="Left" Grid.RowSpan="2">
+                <TextBox x:Name="txt_beats"
+                     Grid.Column="0" Grid.Row="0"
+                     Style="{StaticResource ResourceKey=TimeSignature}" />
+                <TextBox x:Name="txt_beatType"
+                     Grid.Column="0" Grid.Row="1"
+                     Style="{StaticResource ResourceKey=TimeSignature}" />
+            </StackPanel>
+
+            
+            
+            <TextBlock Text="Tempo" 
+                   Grid.Column="3" Grid.Row="2"
+                   Style="{StaticResource ResourceKey=DefaultTextBlock}"/>
+            <TextBlock x:Name="txb_tempo"
+                   Grid.Column="4" Grid.Row="2"
+                   Style="{StaticResource ResourceKey=TempoDisplay}"/>
+            
+            
+            <Button x:Name="btn_tap"
+                Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5"
+                Style="{StaticResource ResourceKey=DefaultButton}" 
+                Click="btn_tap_Click" ClickMode="Press">
+                <Button.Content>
+                    Tap
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
