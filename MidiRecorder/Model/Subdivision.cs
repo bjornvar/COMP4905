@@ -8,12 +8,12 @@ namespace MidiRecorder.Model
 {
     public enum Subdivision
     {
-        WholeNote = 1,
-        HalfNote = 2,
-        QuarterNote = 4,
-        EighthNote = 8,
+        whole = 1,
+        half = 2,
+        quarter = 4,
+        eighth = 8,
         EighthTriplets = 12,
-        SixteenthNote = 16,
-        ThirtySecondNotes = 32
+        sixteenth = 16,
+        thirtysecond = 32
     }
 }

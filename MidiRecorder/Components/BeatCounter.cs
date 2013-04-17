@@ -10,11 +10,11 @@ namespace MidiRecorder.Components
     /// </summary>
     public class BeatCounter
     {
-        private LinkedList<DateTime> beats = new LinkedList<DateTime>();
+        public LinkedList<DateTime> beats { get; private set; }
         public TimeSignature TimeSignature { get; private set; }
 
         public BeatCounter()
-            : this(new TimeSignature(4, Subdivision.QuarterNote))
+            : this(new TimeSignature(4, Subdivision.quarter))
         { }
 
         public BeatCounter(int beatsPerBar, int timeSubdivision)
@@ -23,6 +23,7 @@ namespace MidiRecorder.Components
 
         public BeatCounter(TimeSignature timeSignature)
         {
+            beats = new LinkedList<DateTime>();
             TimeSignature = timeSignature;
         }
 

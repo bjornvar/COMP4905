@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Media;
 using System.Runtime.InteropServices;
 
 namespace MidiRecorder.Components
@@ -6,6 +7,7 @@ namespace MidiRecorder.Components
     class WavRecorder
     {
         public string Recording { get; private set; }
+        public SoundPlayer Sound { get; private set; }
         private bool isRecording = false;
 
         [DllImport("winmm.dll", EntryPoint = "mciSendStringA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -34,6 +36,7 @@ namespace MidiRecorder.Components
                 mciSendString("save recsound " + Recording, "", 0, 0);
                 mciSendString("close recsound ", "", 0, 0);
                 isRecording = false;
+                Sound = new SoundPlayer(Recording);
                 return true;
             }
             else

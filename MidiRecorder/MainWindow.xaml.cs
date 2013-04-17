@@ -1,6 +1,8 @@
-﻿using System;   
+﻿using Microsoft.Win32;
+using System;   
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,7 @@ using System.Windows.Shapes;
 namespace MidiRecorder
 {
     using Components;
+    using Views;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,29 +29,39 @@ namespace MidiRecorder
         private MidiRecorder midiRecorder;
 
         private bool isRecording;
+        private bool isConducting;
 
         public MainWindow()
         {
             InitializeComponent();
-            beatCounter = new BeatCounter(12,8);
             wavRecorder = new WavRecorder();
 
             isRecording = false;
+            isConducting = false;
 
             updateView();
         }
 
+        #region View functions
         private void updateView()
         {
-            updateTempo();
-            updateTimeSignature();
-            updateRhythm();
+            txt_beats.Text = "4";
+            txt_beatType.Text = "4";
+            txt_subdivision.Text = "8";
+
             updateButtons();
         }
 
         private void updateTempo()
         {
-            txb_tempo.Text = beatCounter.Tempo.ToString();
+            if (beatCounter != null)
+            {
+                txb_tempo.Text = beatCounter.Tempo.ToString();
+            }
+            else
+            {
+                txb_tempo.Text = "0";
+            }
         }
 
         private void updateTimeSignature()
@@ -81,16 +94,15 @@ namespace MidiRecorder
 
         private void updateButtons()
         {
-            if (isRecording)
-            {
-                btn_record.Content = "Stop recording";
-            }
-            else
-            {
-                btn_record.Content = "Record";
-            }
-        }
+            if (isRecording) { btn_record.Content = "Stop recording"; }
+            else { btn_record.Content = "Record"; }
 
+            if (isConducting) { btn_conduct.Content = "Stop conducting"; }
+            else { btn_conduct.Content = "Conduct"; }
+        }
+        #endregion
+
+        #region Event handlers
         private void rct_rhythm_Click(object sender, EventArgs e)
         {
             beatCounter.TimeSignature.Rhythm.Beats[Int32.Parse((sender as Rectangle).Tag.ToString())] ^= true;
@@ -99,14 +111,27 @@ namespace MidiRecorder
 
         private void btn_conduct_Click(object sender, RoutedEventArgs e)
         {
-            //med_playback.Source = new Uri("C:\\Users\\Bjorn\\Music\\Michael Buble\\Crazy Love\\03.Georgia On My Mind.mp3");
-            //med_playback.Play();
-            wavRecorder.Start();
-            btn_tap.Focus();
+            if (!isConducting)
+            {
+                StartConducting();
+            }
+            else
+            {
+                StopConducting();
+            }
+            updateButtons();
         }
 
-        private void med_playback_Initialized(object sender, EventArgs e)
+        private void btn_record_Click(object sender, RoutedEventArgs e)
         {
+            if (!isRecording)
+            {
+                StartRecording();
+            }
+            else
+            {
+                StopRecording();
+            }
         }
 
         private void btn_tap_Click(object sender, RoutedEventArgs e)
@@ -115,26 +140,74 @@ namespace MidiRecorder
             updateTempo();
         }
 
-        private void btn_record_Click(object sender, RoutedEventArgs e)
+        private void btn_xml_Click(object sender, RoutedEventArgs e)
         {
-            record();
+            ExportXML();
+        }
+        #endregion
+
+        #region Fan-outs
+        private void StartRecording()
+        {
+            InputSelector i = new InputSelector();
+                
+            // Event handler for selecting input device
+            i.Closed += (sender, e) =>
+            {
+                if (i.SelectedDevice != null)
+                {
+                    midiRecorder = new MidiRecorder(i.SelectedDevice);
+                    midiRecorder.StartRecording();
+
+                    wavRecorder.Start();
+                    isRecording = true;
+                    updateButtons();
+                }
+            };
+
+            i.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void record()
+        private void StopRecording()
         {
-            if (!isRecording)
+            midiRecorder.StopRecording();
+            wavRecorder.Stop();
+            isRecording = false;
+            updateButtons();
+        }
+
+        private void StartConducting()
+        {
+            beatCounter = new BeatCounter(Int32.Parse(txt_beats.Text), Int32.Parse(txt_beatType.Text));
+            try { wavRecorder.Sound.Play(); }
+            catch (NullReferenceException) { }
+            beatCounter.AddBeat();
+            btn_tap.Focus();
+            isConducting = true;
+        }
+
+        private void StopConducting()
+        {
+            wavRecorder.Sound.Stop();
+            isConducting = false;
+            if (MessageBox.Show(this, "Process recording?", "Process", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                midiRecorder = new MidiRecorder(Midi.InputDevice.InstalledDevices[3]);
-                midiRecorder.StartRecording();
-                wavRecorder.Start();
-                isRecording = true;
-            }
-            else
-            {
-                midiRecorder.StopRecording();
-                wavRecorder.Stop();
-                isRecording = false;
+                midiRecorder.Conduct(beatCounter.beats, beatCounter.TimeSignature);
+                midiRecorder.Quantize(Int32.Parse(txt_subdivision.Text), beatCounter.TimeSignature);
             }
         }
+
+        private void ExportXML()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileOk +=
+                (s, f) =>
+                {
+                    ExportXML xml = new ExportXML(Int32.Parse(txt_subdivision.Text), beatCounter.TimeSignature, dlg.FileName);
+                    xml.Export(midiRecorder.processedNotes);
+                };
+            dlg.ShowDialog(this);
+        }
+        #endregion
     }
 }
