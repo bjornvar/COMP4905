@@ -4,7 +4,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="3" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="Gray" />
         <Setter Property="FontSize" Value="26" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>

@@ -95,10 +95,10 @@ namespace MidiRecorder
         private void updateButtons()
         {
             if (isRecording) { btn_record.Content = "Stop recording"; }
-            else { btn_record.Content = "Record"; }
+            else { btn_record.Content = "1. Record"; }
 
             if (isConducting) { btn_conduct.Content = "Stop conducting"; }
-            else { btn_conduct.Content = "Conduct"; }
+            else { btn_conduct.Content = "2. Conduct"; }
         }
         #endregion
 

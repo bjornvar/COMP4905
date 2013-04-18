@@ -23,24 +23,24 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Button x:Name="btn_record"
-                    Content="Record"
+                    Content="1. Record"
                     Style="{StaticResource ResourceKey=DefaultButton}"
                     Grid.Column="0"
                     Click="btn_record_Click"/>
             <Button x:Name="btn_conduct"
-                    Content="Conduct"
+                    Content="2. Conduct"
                     Click="btn_conduct_Click"
                     Style="{StaticResource ResourceKey=DefaultButton}"
                     Grid.Column="1" />
             <Button x:Name="btn_xml"
-                    Content="To XML"
+                    Content="3. Export to XML"
                     Style="{StaticResource ResourceKey=DefaultButton}"
                     Grid.Column="2" Click="btn_xml_Click" />
-            <Button x:Name="btn_settings"
+            <Button x:Name="btn_settings" IsEnabled="False"
                     Content="Settings"
                     Style="{StaticResource ResourceKey=DefaultButton}"
                     Grid.Column="3" />
-            <Button x:Name="btn_help"
+            <Button x:Name="btn_help" IsEnabled="False"
                     Content="Help"
                     Style="{StaticResource ResourceKey=DefaultButton}"
                     Grid.Column="4" />
@@ -51,10 +51,7 @@
                       Grid.Column="1" Grid.Row="0"
                       Visibility="Hidden" Source="Assets/03 Autumn Leaves.mp3" IsMuted="False" LoadedBehavior="Manual">
         </MediaElement>
-        <Slider  
-                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
-                Style="{StaticResource ResourceKey=Playback}"/>
-        
+
         <!-- Dynamic splitpoint -->
         
         
@@ -80,10 +77,10 @@
             <StackPanel x:Name="stc_rythm"
                         Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4"
                         Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,-172,0" >
-                <Rectangle Style="{StaticResource ResourceKey=RythmBoxActive}" />
                 <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
                 <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
-                <Rectangle Style="{StaticResource ResourceKey=RythmBoxActive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
+                <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
                 <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
                 <Rectangle Style="{StaticResource ResourceKey=RythmBoxInactive}" />
             </StackPanel>
