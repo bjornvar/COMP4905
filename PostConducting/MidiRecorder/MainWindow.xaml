@@ -117,6 +117,7 @@
             <Button x:Name="btn_tap"
                 Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5"
                 Style="{StaticResource ResourceKey=DefaultButton}" 
+                FontSize="56" IsEnabled="False"
                 Click="btn_tap_Click" ClickMode="Press">
                 <Button.Content>
                     Tap

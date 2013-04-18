@@ -182,6 +182,7 @@ namespace MidiRecorder
             try { wavRecorder.Sound.Play(); }
             catch (NullReferenceException) { }
             beatCounter.AddBeat();
+            btn_tap.IsEnabled = true;
             btn_tap.Focus();
             isConducting = true;
         }
@@ -189,6 +190,7 @@ namespace MidiRecorder
         private void StopConducting()
         {
             wavRecorder.Sound.Stop();
+            btn_tap.IsEnabled = false;
             isConducting = false;
             if (MessageBox.Show(this, "Process recording?", "Process", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
