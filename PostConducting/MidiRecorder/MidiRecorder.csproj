@@ -58,6 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Components\ExportXML.cs" />
+    <Compile Include="Components\SplitPointGenerator.cs" />
     <Compile Include="Views\InputSelector.xaml.cs">
       <DependentUpon>InputSelector.xaml</DependentUpon>
     </Compile>
