@@ -27,6 +27,7 @@ namespace MidiRecorder
         private BeatCounter beatCounter;
         private WavRecorder wavRecorder;
         private MidiRecorder midiRecorder;
+        private SplitPointGenerator splitPointGenerator;
 
         private bool isRecording;
         private bool isConducting;
@@ -159,6 +160,10 @@ namespace MidiRecorder
                     midiRecorder = new MidiRecorder(i.SelectedDevice);
                     midiRecorder.StartRecording();
 
+                    // Static code
+                    splitPointGenerator = new SplitPointGenerator(0, 1000, Midi.Pitch.A0, Midi.Pitch.C8);
+                    splitPointGenerator.StartRecording();
+
                     wavRecorder.Start();
                     isRecording = true;
                     updateButtons();
@@ -170,6 +175,7 @@ namespace MidiRecorder
 
         private void StopRecording()
         {
+            splitPointGenerator.StopRecording();
             midiRecorder.StopRecording();
             wavRecorder.Stop();
             isRecording = false;
@@ -206,7 +212,7 @@ namespace MidiRecorder
                 (s, f) =>
                 {
                     ExportXML xml = new ExportXML(Int32.Parse(txt_subdivision.Text), beatCounter.TimeSignature, dlg.FileName);
-                    xml.Export(midiRecorder.processedNotes);
+                    xml.Export(midiRecorder.processedNotes, splitPointGenerator);
                 };
             dlg.ShowDialog(this);
         }

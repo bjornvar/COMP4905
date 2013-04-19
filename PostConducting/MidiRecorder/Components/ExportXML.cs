@@ -50,7 +50,7 @@ namespace MidiRecorder.Components
         ///     Exports collection of note to MusicXML.
         /// </summary>
         /// <param name="notes">Collection of ordered notes</param>
-        public void Export(IEnumerable<NoteDetailed> notes)
+        public void Export(IEnumerable<NoteDetailed> notes, SplitPointGenerator splitPoints)
         {
             WriteHeader();
 
@@ -61,13 +61,36 @@ namespace MidiRecorder.Components
 
             WritePartList();
 
+            IEnumerable<NoteDetailed> p1 = notes.Where(n => (int)n.pitch > (int)splitPoints.GetSplitPoint(n.GetStart()));
+            IEnumerable<NoteDetailed> p2 = notes.Where(n => (int)n.pitch <= (int)splitPoints.GetSplitPoint(n.GetStart()));
+
+            WritePart("P1", notes);
+            WritePart("P2", notes);
+
+            writer.WriteEndElement();
+            writer.Close();
+        }
+
+        private void WriteHeader()
+        {
+            writer.WriteStartDocument(false);
+            writer.WriteDocType("score-partwise", "-//Recordare//DTD MusicXML 1.0 Partwise//EN", "http://www.musicxml.org/dtds/partwise.dtd", null);
+        }
+
+        private void WritePartList()
+        {
+            writer.WriteRaw("<part-list><score-part id=\"P1\"><part-name>Right</part-name></score-part><score-part id=\"P2\"><part-name>Left</part-name></score-part></part-list>");
+        }
+
+        private void WritePart(string id, IEnumerable<NoteDetailed> notes)
+        {
             writer.WriteStartElement("part");
             writer.WriteStartAttribute("id");
-            writer.WriteValue("P1");
+            writer.WriteValue(id);
             writer.WriteEndAttribute();
 
             WriteFirstMeasure(timeSignature, subDiv);
-            
+
             // Write all bars and notes
             int bar = 0;
             for (int i = 0; i < notes.Count(); i++)
@@ -137,20 +160,6 @@ namespace MidiRecorder.Components
             writer.WriteEndElement();
 
             writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            writer.Close();
-        }
-
-        private void WriteHeader()
-        {
-            writer.WriteStartDocument(false);
-            writer.WriteDocType("score-partwise", "-//Recordare//DTD MusicXML 1.0 Partwise//EN", "http://www.musicxml.org/dtds/partwise.dtd", null);
-        }
-
-        private void WritePartList()
-        {
-            writer.WriteRaw("<part-list><score-part id=\"P1\"><part-name>Music</part-name></score-part></part-list>");
         }
 
         private void WriteFirstMeasure(TimeSignature ts, int subDivision)

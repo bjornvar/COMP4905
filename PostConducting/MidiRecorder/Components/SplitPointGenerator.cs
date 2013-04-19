@@ -6,6 +6,9 @@ using Midi;
 
 namespace MidiRecorder.Components
 {
+    /// <summary>
+    ///     Keeps track of split point changes throughout a recording
+    /// </summary>
     class SplitPointGenerator
     {
         private float left;
@@ -18,15 +21,27 @@ namespace MidiRecorder.Components
         private Dictionary<double, Pitch> splitPointLog;
         private DateTime start;
 
-        public SplitPointGenerator(float leftEnd, float rightEnd, int numKeys, Pitch lowest, Pitch highest)
+        /// <summary>
+        ///     Creates a new split point generator given information from the Detector.
+        /// </summary>
+        /// <param name="leftEnd">The position of the left (lower) end of the piano</param>
+        /// <param name="rightEnd">The position of the right (higher) end of the piano</param>
+        /// <param name="lowest">The lowest pitch on the piano</param>
+        /// <param name="highest">The highest pitch on the piano</param>
+        public SplitPointGenerator(float leftEnd, float rightEnd, Pitch lowest, Pitch highest)
         {
             this.left = leftEnd;
             this.right = rightEnd;
-            this.keys = numKeys;
+            this.keys = (int)highest - (int)lowest;
             this.low = lowest;
             this.high = highest;
         }
 
+        /// <summary>
+        ///     Gets the split point at a given time
+        /// </summary>
+        /// <param name="time">The time for which to get the split point</param>
+        /// <returns>The split point at the given time</returns>
         public Pitch GetSplitPoint(double time)
         {
             if (null == splitPointLog)
@@ -47,14 +62,18 @@ namespace MidiRecorder.Components
                     }
                 }
 
-                Pitch result;
+                Pitch result = Pitch.A0;
                 splitPointLog.TryGetValue(key, out result);
 
                 return result;
             }
         }
 
-        //
+        /// <summary>
+        ///     Translate a split point as horizontal position into a pitch.
+        /// </summary>
+        /// <param name="xPosition">The split point as a horizontal position</param>
+        /// <returns>The pitch of the given horizontal position</returns>
         private Pitch Translate(float xPosition)
         {
             return (Pitch)
@@ -73,6 +92,9 @@ namespace MidiRecorder.Components
                 );
         }
 
+        /// <summary>
+        ///     Start recording changes in split point
+        /// </summary>
         public void StartRecording()
         {
             splitPointLog = new Dictionary<double, Pitch>();
@@ -80,6 +102,9 @@ namespace MidiRecorder.Components
             SplitPointChanged += SplitPoint_Changed;
         }
 
+        /// <summary>
+        ///     Stop recording changes in split point.
+        /// </summary>
         public void StopRecording()
         {
             SplitPointChanged -= SplitPoint_Changed;
